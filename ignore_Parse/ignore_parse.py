@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# Homework Assignment 1 side project
+# Requirements: Parse an input document, list the words in order, case insensitive, get rid of 
+# sentence punctuation, include word punctuation
+# Owner: Dominic Pontious
 
 # Importing sys for commmand line interfacing
 import sys
@@ -13,8 +17,13 @@ import re
 # Importing operator for sort function
 import operator
 
-# getWords() func inputs text and returns a list of words which have been lower cased and punctuation removed
 def getWords(text):
+	"""
+	Takes in a string and edits it to have no punctuation, be all lower case, and include words that have - or '
+	 then seperates each word into a list of strings and returns this list
+	Input: text <str>
+	Output: words [<str>]
+	"""
 
 	# This takes all upper case letters and lowers them
 	lowered = text.lower()
@@ -22,41 +31,88 @@ def getWords(text):
 	# Gets rid of all punctuation and new lines
 	lowered = re.sub("[!.,?"":;\n]", " ", lowered)
 
-	# Gets rid of -- and replaces with a space
-	lowered = re.sub("--", " ", lowered)
+	# Gets rid of two or more - and replaces with a space
+	lowered = re.sub(r"--+", " ", lowered)
 
 	# Takes quotes off words
 	lowered = re.sub(r"'([a-zA-Z'-]+)'", r"\1", lowered)
 
 	# This uses findall() to create my list searching for anything that is a word containing: letters, ' and -
-	words = re.findall(r"[a-zA-Z'-]+",lowered)
+	words = re.findall(r"[a-zA-Z'-]+", lowered)
 
 	return words
 
-# Class to hold a word and count
 class wordClass(object):
+	"""
+	Variables:
+				word <str>
+				count <int>
+	Methods:
+				__init__(self,word,count) initializes the wordClass
+				plusCount(self) increments the count variable
+				displayData print statement for the variables
+				getWord returns word
+				getCount returns count
+	"""
 
-	# Initialize a word input and 1 count
 	def __init__(self, word, count = 1):
+		"""
+		Initializes the wordClass with the word which was input and a count of 1 unless overridden
+		Input: 	word <str>
+				count <int>
+		Output: None
+		"""
+
 		self.word = word
 		self.count = count
 
-	# Func to increase count
 	def plusCount(self):
+		"""
+		Increments the variable count contained in the wordClass
+		Input: None
+		Output: None
+		"""
 		self.count += 1
 
-	# Print variables in class
 	def displayData(self):
+		"""
+		A print function to display the two variables word and count
+		Input: None
+		Output: None
+		"""
+
 		print(self.word + ": " + str(self.count))
 
-	# Getters to not directly call variables
 	def getWord(self):
+		"""
+		A getter function for the word variable
+		Input: None
+		Output: word <str>
+		"""
+
 		return self.word
 
 	def getCount(self):
+		"""
+		A getter function for the word variable
+		Input: None
+		Output: count <int>
+		"""
+
 		return self.count
 
 def main():
+	"""
+	Takes in command line argument for the document to be read in and ignore file, checks for the correct number of arguments
+	 verifies that we can work with the given files. Turns files into a list of strings
+	 Turns ignoreFile into a dictionary of wordClass objects with key as word <str>
+	 Reads list of strings into a dictionary and list of wordClass objects
+	 If the wordClass is in the ignoreDictionary skips this word
+	 If there is a duplicate word increments the count variable using the dictionary
+	 Sorts the list of wordClass objects
+	 Writes the sorted list to a txt document
+	 Reads the written document in the command line
+	"""
 
 	# Checks to ensure there are exactly two command line arguments
 	if (len(sys.argv) != 3):
@@ -92,19 +148,10 @@ def main():
 
 		READ_FIL.close()
 
-	# An error check if the input was not a file
-	else:
-
-		print("Your input has to be a file we can access and it does not appear to be")
-		sys.exit(3)
-
-
-
-
 	# List of wordClass to be sorted later
 	wordList = []
 
-	# dictionary, key is word string, value is wordClass
+	# dictionary, key is a string, value is wordClass
 	wordDictionary = {}
 
 	excludeDictionary = {}
@@ -121,7 +168,7 @@ def main():
 
 			pass
 
-		# If the word is not in the dictionary it is also not in the list
+		# If the word is not in the dictionary add it
 		else:
 
 			# Instances a wordClass with key: word
@@ -149,11 +196,11 @@ def main():
 			# Appends the same wordClass instance to the wordList
 			wordList.append(wordDictionary[word])
 	
-	# Uses Python sort func, first parameter is wordList, second parameter specifies what attribute to sort by, in this case the word
+	# Uses Python sort func, first parameter is wordList, second parameter specifies what attribute to sort by, in this case the count
 	sortedList = sorted(wordList, key=operator.attrgetter('count'))
 
 
-	with open("outputWithExclude2.txt", mode = 'w') as WRITE_FILE:
+	with open("outputExclude.txt", mode = 'w') as WRITE_FILE:
 
 		# Writes sorted wordList into a document
 		for wordObj in sortedList:
@@ -163,7 +210,7 @@ def main():
 	WRITE_FILE.close()
 
 	# This opens the above file and prints the contents
-	with open("outputWithExclude2.txt", mode = 'r') as OUTPUT_FILE:
+	with open("outputExclude.txt", mode = 'r') as OUTPUT_FILE:
 
 		print (OUTPUT_FILE.read())
 
