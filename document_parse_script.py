@@ -3,7 +3,7 @@
 # Homework Assignment 1
 # Requirements: Parse an input document, list the words in order, case insensitive, get rid of 
 # sentence punctuation, include word punctuation
-# Owner: Dominic Pontious
+# Owner: Dominic Pontious git check
 
 # Importing sys for commmand line interfacing
 import sys
