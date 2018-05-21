@@ -118,23 +118,28 @@ def main():
 		print("This script needs two arguments, this and the text being read in. You input: ", len(sys.argv), "arguments.")
 
 		# Exits the script with an error number
-		sys.exit(1)
+		sys.exit(-1)
 
-	# This is a check to make sure the input is actually a file
-	if (os.path.isfile(sys.argv[1])):
-
-		# This is to save myself a local copy of the contents of the file and then close the original
-		with open(sys.argv[1], mode = 'r') as READ_FILE:
-
-			myFile = READ_FILE.read()
-
-		READ_FILE.close()
-
-	# An error check if the input was not a file
-	else:
+	# Check to ensure input is a file
+	if not (os.path.isfile(sys.argv[1])):
 
 		print("Your input has to be a file we can access and it does not appear to be")
-		sys.exit(2)
+		sys.exit(-1)
+
+	# Check to ensure input is a txt file
+	if not (sys.argv[1].endswith(".txt")):
+
+		print("Please input a .txt file")
+		sys.exit(-1)
+
+	# Opens the file and makes a local copy to be modified
+	with open(sys.argv[1], mode = 'r') as READ_FILE:
+
+		myFile = READ_FILE.read()
+
+	READ_FILE.close()
+
+		
 
 
 
@@ -184,6 +189,8 @@ def main():
 		print (OUTPUT_FILE.read())
 
 	OUTPUT_FILE.close()
+
+	exit(0)
 
 
 # This is a check to make sure the script is being handled correctly
