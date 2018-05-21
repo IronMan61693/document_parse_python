@@ -102,6 +102,15 @@ class wordClass(object):
 		return self.count
 
 def main():
+	"""
+	Takes in command line argument for the document to be read in, checks for the correct number of arguments
+	 verifies that we can work with the given file. Turns input file into a list of strings
+	 Reads list of strings into a dictionary and list of wordClass objects
+	 If there is a duplicate word increments the count variable using the dictionary
+	 Sorts the list of wordClass objects
+	 Writes the sorted list to a txt document
+	 Reads the written document in the command line
+	"""
 
 	# Checks to ensure there are exactly two command line arguments
 	if (len(sys.argv) != 2):
@@ -177,7 +186,7 @@ def main():
 	OUTPUT_FILE.close()
 
 
-# This is just a check to make sure the script is being handled correctly
+# This is a check to make sure the script is being handled correctly
 if (__name__ == "__main__"):
 	main()
 
