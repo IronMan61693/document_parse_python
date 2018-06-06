@@ -198,4 +198,4 @@ if (__name__ == "__main__"):
 	main()
 
 else:
-	print("improper use of the script!")
+	print("Did not run main function")
